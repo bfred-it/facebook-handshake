@@ -1,18 +1,8 @@
 'use strict';
-import loadAPI from 'facebook-api-promise';
+import loadSDK from 'facebook-sdk-promise';
 import buildUrlQuery from 'build-url-query';
 import Console from 'console-class';
 const console = new Console('FB', false);
-export const logging = {
-	on() {
-		loadAPI.logging.on();
-		console.on();
-	},
-	off() {
-		loadAPI.logging.off();
-		console.off();
-	}
-};
 console.color = '#3b5998';
 
 export let requiresRedirect = navigator.userAgent.indexOf('iPhone') >=0 && navigator.userAgent.indexOf('Version/') < 0 ;
@@ -47,7 +37,7 @@ export function init (id, opts) {
 	opts = opts || {};
 	redirectUri = opts.url || location.href;
 	appId = id;
-	initPromise = loadAPI().then(function(FB) {
+	initPromise = loadSDK().then(function(FB) {
 		FB.init({
 			appId: appId,
 			xfbml: true,
@@ -84,4 +74,14 @@ export function login (opts) {
 		}).then(handleLoginResponse)
 	);
 }
-export default {init, login};
+
+export const logging = {
+	on() {
+		loadSDK.logging.on();
+		console.on();
+	},
+	off() {
+		loadSDK.logging.off();
+		console.off();
+	}
+};

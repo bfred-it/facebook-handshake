@@ -2,21 +2,11 @@
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
-var loadAPI = _interopDefault(require('facebook-api-promise'));
+var loadSDK = _interopDefault(require('facebook-sdk-promise'));
 var buildUrlQuery = _interopDefault(require('build-url-query'));
 var Console = _interopDefault(require('console-class'));
 
 var console = new Console('FB', false);
-var logging = {
-	on: function () {
-		loadAPI.logging.on();
-		console.on();
-	},
-	off: function () {
-		loadAPI.logging.off();
-		console.off();
-	}
-};
 console.color = '#3b5998';
 
 var requiresRedirect = navigator.userAgent.indexOf('iPhone') >= 0 && navigator.userAgent.indexOf('Version/') < 0;
@@ -51,7 +41,7 @@ function init(id, opts) {
 	opts = opts || {};
 	redirectUri = opts.url || location.href;
 	appId = id;
-	initPromise = loadAPI().then(function (FB) {
+	initPromise = loadSDK().then(function (FB) {
 		FB.init({
 			appId: appId,
 			xfbml: true,
@@ -89,10 +79,19 @@ function login(opts) {
 		}).then(handleLoginResponse);
 	});
 }
-var index = { init: init, login: login };
 
-exports.logging = logging;
+var logging = {
+	on: function on() {
+		loadSDK.logging.on();
+		console.on();
+	},
+	off: function off() {
+		loadSDK.logging.off();
+		console.off();
+	}
+};
+
 exports.requiresRedirect = requiresRedirect;
 exports.init = init;
 exports.login = login;
-exports['default'] = index;
+exports.logging = logging;
