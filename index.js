@@ -35,9 +35,10 @@ function handleLoginResponse (response) {
  * Load Facebook API, initiated it and set the configuration
  * @param  {string} id  The app ID given by Facebook
  * @param  {string} url The URL to redirect to after the login on some browsers
+ * @param  {string} version The Facebook API version to use, defaults to 'v2.5'
  * @return {Promise}    The Promise will resolve when the Facebook init has happened
  */
-export function init (id, url) {
+export function init (id, url, version) {
 	if (!initPromise) {
 		return initPromise;
 	}
@@ -47,7 +48,7 @@ export function init (id, url) {
 		FB.init({
 			appId: appId,
 			xfbml: true,
-			version: 'v2.0'
+			version: version || 'v2.5'
 		});
 	});
 	return initPromise;

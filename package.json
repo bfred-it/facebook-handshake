@@ -1,6 +1,6 @@
 {
   "name": "facebook-handshake",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Seamlessly log into Facebook silently, with a popup or with a redirect on unsupported browsers (Chrome/iOS).",
   "main": "index.js",
   "author": "Federico Brigante <npm@bfred.it> (https://twitter.com/bfred_it)",
