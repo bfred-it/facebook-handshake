@@ -9,31 +9,66 @@ npm i --save facebook-handshake
 
 ## Usage
 
-The user will be presented with the standard Facebook login popup or will be redirected to the specified URL on Chrome/iOS.
-
 ```js
 import FBH from 'facebook-handshake';
 
-// .init() MUST be called before anything else to store the data for the login
-FBH.init('8460000258713230', 'http://yourfacebookapp.com/');
+// MUST be called before anything else to store the data for the login.
+FBH.init('8460000258713230');
 
+// silent check
+FBH.login(true).then(user => /* user is already logged in */)
+
+// user clicks on connectButton
+connectButton.onclick = () => FBH.login().then(user => /* do stuff */)
+
+```
+
+### Init with options
+
+```js
+
+FBH.init('8460000258713230', {
+    url: 'http://yourfacebookapp.com/' // this is optional, it defaults to location.href
+    version: 'v2.5' // this is the default value
+});
+
+```
+
+### Init with callback (via promise)
+
+```js
+FBH.init('8460000258713230')
+.then(FB => console.log('Facebook SDK initialized'));
+```
+
+### Silent login check
+
+The user won't see anything, so you can proceed to use their previously-requested login or call `FBH.login()` whenever the user clicks on your `[Login]` button.
+
+```js
+FBH.login(true) // true = silent
+.then(user => console.log('User was already logged in:', user.id, user.token))
+.catch(error => console.error('User was not already log in'));
+```
+
+### First-time login
+
+The user will be presented with the standard Facebook login popup or will be redirected to the specified URL on Chrome/iOS.
+
+```js
+// do this on click/tap or else the browser will block the popup
 FBH.login()
 .then(user => console.log('User logged in:', user.id, user.token))
 .catch(error => console.error('User refused to log in'))
 ```
 
-### Silent login check
+### Specify a scope
 
-The user won't see anything, so you can proceed to use their previously-requested login or call `FBH.login()` whenever the user clicks on your `[Login]` button
+Only when logging in with a popup, specify the required scope this way:
 
 ```js
-FBH.init('8460000258713230', 'http://yourfacebookapp.com/');
-
-FBH.login(true)
-.then(user => console.log('User was already logged in:', user.id, user.token))
-.catch(error => console.error('User was not already log in'));
+FBH.login({scope: 'public_profile'});
 ```
-
 
 ### Enable or disable the internal logging
 

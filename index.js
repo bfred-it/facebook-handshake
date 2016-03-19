@@ -1,5 +1,6 @@
 'use strict';
 import loadAPI from 'facebook-api-promise';
+import buildUrlQuery from 'build-url-query';
 import Console from 'console-class';
 const console = new Console('FB', false);
 export const logging = {
@@ -34,21 +35,25 @@ function handleLoginResponse (response) {
 /**
  * Load Facebook API, initiated it and set the configuration
  * @param  {string} id  The app ID given by Facebook
- * @param  {string} url The URL to redirect to after the login on some browsers
- * @param  {string} version The Facebook API version to use, defaults to 'v2.5'
+ * @param  {object} opts
+ *         url          The URL to redirect to after the login on some browsers
+ *         version      The Facebook API version to use, defaults to 'v2.5'
  * @return {Promise}    The Promise will resolve when the Facebook init has happened
  */
-export function init (id, url, version) {
+export function init (id, opts) {
 	if (!initPromise) {
 		return initPromise;
 	}
-	redirectUri = url || location.href;
+	opts = opts || {};
+	redirectUri = opts.url || location.href;
 	appId = id;
 	initPromise = loadAPI().then(function(FB) {
 		FB.init({
 			appId: appId,
 			xfbml: true,
-			version: version || 'v2.5'
+			cookie: true,
+			status: true, // https://developers.facebook.com/docs/javascript/advanced-setup#status
+			version: opts.version || 'v2.5'
 		});
 	});
 	return initPromise;
@@ -56,20 +61,25 @@ export function init (id, url, version) {
 
 /**
  * Log into Facebook in one of the three ways available
- * @param  {boolean} silent      Whether to only verify if the user had already logged into the app
- * @param  {object} permissions  Optional permissions object to pass to Facebook
+ * @param  {boolean|object} opts   It can be one of the two following types
+ *                         {boolean}  Whether to only verify if the user had already logged into the app
+ *                         {object}   Optional permissions object to pass to Facebook, like {scope: 'user_friends'}
  * @return {Promise}             The Promise will resolve if the user is logged in, fail if it hasn't
  */
-export function login (silent, permissions) {
-	if (!silent && requiresRedirect) {
-		window.location.href = 'https://www.facebook.com/dialog/oauth?client_id='+appId+'&ßscope=public_profile&redirect_uri='+encodeURIComponent(redirectUri);
+export function login (opts) {
+	if (opts !== true && requiresRedirect) {
+		opts = opts || {}; // start from possible {scope: 'a,b,c'}
+		opts.client_id = appId;
+		opts.redirect_uri = redirectUri;
+		window.location.href = 'https://www.facebook.com/dialog/oauth' + buildUrlQuery(opts);
+		return;
 	}
 	return init().then(FB => new Promise(requestDone => {
-			if (silent) {
+			if (opts === true) {
 				console.log('Verifying current login');
 				FB.getLoginStatus(requestDone);
 			} else {
-				FB.login(requestDone, permissions || {});
+				FB.login(requestDone, opts || {});
 			}
 		}).then(handleLoginResponse)
 	);

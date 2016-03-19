@@ -1,11 +1,10 @@
 {
   "name": "facebook-handshake",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Seamlessly log into Facebook silently, with a popup or with a redirect on unsupported browsers (Chrome/iOS).",
-  "main": "index.js",
+  "main": "dist/index.es5.js",
   "author": "Federico Brigante <npm@bfred.it> (https://twitter.com/bfred_it)",
   "license": "MIT",
-  "main": "dist/index.es5.js",
   "jsnext:main": "index.js",
   "scripts": {
     "build": "rollup-babel-lib-bundler --name 'index.es5' --format cjs --dest ./dist ./index.js",
@@ -16,6 +15,11 @@
     "rollup-babel-lib-bundler": "^2.3.3"
   },
   "babel": {
-	  "presets": ["es2015-loose-rollup"]
-	}
+    "presets": [
+      "es2015-loose-rollup"
+    ]
+  },
+  "dependencies": {
+    "build-url-query": "^1.0.0"
+  }
 }
