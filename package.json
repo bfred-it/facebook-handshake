@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "build-url-query": "^1.0.0",
-    "facebook-sdk-promise": "^1.1.1"
+    "console-class": "^2.0.0",
+    "facebook-sdk-promise": "^1.2.0"
   }
 }

@@ -2,8 +2,7 @@
 import loadSDK from 'facebook-sdk-promise';
 import buildUrlQuery from 'build-url-query';
 import Console from 'console-class';
-const console = new Console('FB', false);
-console.color = '#3b5998';
+const console = new Console('FB', {color:'#3b5998'}).off();
 
 export let requiresRedirect = navigator.userAgent.indexOf('iPhone') >=0 && navigator.userAgent.indexOf('Version/') < 0 ;
 

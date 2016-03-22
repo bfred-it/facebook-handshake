@@ -6,8 +6,7 @@ var loadSDK = _interopDefault(require('facebook-sdk-promise'));
 var buildUrlQuery = _interopDefault(require('build-url-query'));
 var Console = _interopDefault(require('console-class'));
 
-var console = new Console('FB', false);
-console.color = '#3b5998';
+var console = new Console('FB', { color: '#3b5998' }).off();
 
 var requiresRedirect = navigator.userAgent.indexOf('iPhone') >= 0 && navigator.userAgent.indexOf('Version/') < 0;
 
