@@ -47,7 +47,7 @@ The user won't see anything, so you can proceed to use their previously-requeste
 
 ```js
 FBH.login(true) // true = silent
-.then(user => console.log('User was already logged in:', user.id, user.token))
+.then(user => console.log('User was already logged in:', user.userID, user.accessToken))
 .catch(error => console.error('User was not already log in'));
 ```
 
@@ -68,6 +68,14 @@ Only when logging in with a popup, specify the required scope this way:
 
 ```js
 FBH.login({scope: 'public_profile'});
+```
+
+### Force a scope change
+
+If the user is already logged in and connected, calling `.login()` with a different scope will not update. Use the second parameter (`force`) to, well, force it to display the login window with the new scope request.
+
+```js
+FBH.login({scope: 'public_profile,publish_actions'}, true);
 ```
 
 ### Enable or disable the internal logging

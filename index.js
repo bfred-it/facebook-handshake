@@ -7,18 +7,22 @@ const console = new Console('FB', {color:'#3b5998'}).off();
 export let requiresRedirect = navigator.userAgent.indexOf('iPhone') >=0 && navigator.userAgent.indexOf('Version/') < 0 ;
 
 let initPromise;
+let loginPromise;
 let redirectUri;
 let appId;
 
 function handleLoginResponse (response) {
 	console.log('User login response:', response);
-	if (response.status === 'connected' && response.authResponse && response.authResponse.accessToken && response.authResponse.userID) {
-		return {
-			token: response.authResponse.accessToken,
-			id: response.authResponse.userID
-		};
+	if (response.status === 'connected') {
+		loginPromise = Promise.resolve(response.authResponse);
+		return loginPromise;
 	}
 	throw new Error('User not logged in');
+}
+
+function rememberLoginStatus (response) {
+	Promise.resolve(response).then(handleLoginResponse);
+	window.FB.Event.unsubscribe('auth.statusChange', rememberLoginStatus);
 }
 
 /**
@@ -30,7 +34,7 @@ function handleLoginResponse (response) {
  * @return {Promise}    The Promise will resolve when the Facebook init has happened
  */
 export function init (id, opts) {
-	if (!initPromise) {
+	if (initPromise) {
 		return initPromise;
 	}
 	opts = opts || {};
@@ -44,6 +48,8 @@ export function init (id, opts) {
 			status: true, // https://developers.facebook.com/docs/javascript/advanced-setup#status
 			version: opts.version || 'v2.5'
 		});
+		FB.Event.subscribe('auth.statusChange', rememberLoginStatus);
+		return FB;
 	});
 	return initPromise;
 }
@@ -53,9 +59,13 @@ export function init (id, opts) {
  * @param  {boolean|object} opts   It can be one of the two following types
  *                         {boolean}  Whether to only verify if the user had already logged into the app
  *                         {object}   Optional permissions object to pass to Facebook, like {scope: 'user_friends'}
+ * @param  {boolean} force       Set to true to force the login popup/redirect to happen, otherwise it will be cached
  * @return {Promise}             The Promise will resolve if the user is logged in, fail if it hasn't
  */
-export function login (opts) {
+export function login (opts, force) {
+	if (loginPromise && !force) {
+		return loginPromise;
+	}
 	if (opts !== true && requiresRedirect) {
 		opts = opts || {}; // start from possible {scope: 'a,b,c'}
 		opts.client_id = appId;
