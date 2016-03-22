@@ -7,12 +7,12 @@
   "license": "MIT",
   "jsnext:main": "index.js",
   "scripts": {
-    "build": "rollup-babel-lib-bundler --libName 'index.es5' --format cjs --dest ./dist ./index.js",
+    "build": "rollup-babel-lib-bundler --lib-name 'index.es5' --format cjs --dest ./dist ./index.js",
     "prepublish": "npm run build"
   },
   "devDependencies": {
     "babel-preset-es2015-rollup": "^1.1.1",
-    "rollup-babel-lib-bundler": "^2.3.5"
+    "rollup-babel-lib-bundler": "^2.3.6"
   },
   "babel": {
     "presets": [
