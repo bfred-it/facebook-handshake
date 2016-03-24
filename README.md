@@ -84,8 +84,21 @@ FBH.login({scope: 'public_profile,publish_actions'}, true);
 import loadFacebookAPI from 'facebook-handshake';
 // it starts "off"
 loadFacebookAPI.logging.on();
+FBH.init('8460000258713230');
 // [FB API] Ready
 // [FB] User login response: {id: '...', token: '...'}
+```
+
+### Support multiple apps on multiple domains
+
+Create multiple apps (or test version of apps) on Facebook, and then easily `switch` between them:
+
+```js
+switch(location.host) {
+    case 'yourfacebookapp.com': FBH.init('000PR0D00000'); break;
+    case 'localhost':           FBH.init('1111L0CAL111'); break;
+    case 'localhost:3000':      FBH.init('300030003000'); break;
+}
 ```
 
 ## Build
