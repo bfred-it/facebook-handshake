@@ -1,6 +1,6 @@
 {
   "name": "facebook-handshake",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "Seamlessly log into Facebook silently, with a popup or with a redirect on unsupported browsers (Chrome/iOS).",
   "main": "dist/index.es5.js",
   "author": "Federico Brigante <npm@bfred.it> (https://twitter.com/bfred_it)",
@@ -23,5 +23,13 @@
     "console-class": "^2.0.0",
     "facebook-sdk-promise": "^1.2.0",
     "query-string": "^3.0.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bfred-it/facebook-handshake.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bfred-it/facebook-handshake/issues"
+  },
+  "homepage": "https://github.com/bfred-it/facebook-handshake#readme"
 }
