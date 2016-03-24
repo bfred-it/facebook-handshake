@@ -3,7 +3,7 @@
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
 var loadSDK = _interopDefault(require('facebook-sdk-promise'));
-var buildUrlQuery = _interopDefault(require('build-url-query'));
+var queryString = require('query-string');
 var Console = _interopDefault(require('console-class'));
 
 var console = new Console('FB', { color: '#3b5998' }).off();
@@ -74,7 +74,7 @@ function login(opts, force) {
 		opts = opts || {}; // start from possible {scope: 'a,b,c'}
 		opts.client_id = appId;
 		opts.redirect_uri = redirectUri;
-		window.location.href = 'https://www.facebook.com/dialog/oauth' + buildUrlQuery(opts);
+		window.location.href = 'https://www.facebook.com/dialog/oauth' + queryString.stringify(opts);
 		return;
 	}
 	return init().then(function (FB) {

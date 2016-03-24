@@ -1,6 +1,6 @@
 'use strict';
 import loadSDK from 'facebook-sdk-promise';
-import buildUrlQuery from 'build-url-query';
+import {stringify as buildUrlQuery} from 'query-string';
 import Console from 'console-class';
 const console = new Console('FB', {color:'#3b5998'}).off();
 
