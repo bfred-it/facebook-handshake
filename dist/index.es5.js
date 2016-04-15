@@ -35,6 +35,7 @@ function rememberLoginStatus(response) {
  * @param  {object} opts
  *         url          The URL to redirect to after the login on some browsers
  *         version      The Facebook API version to use, defaults to 'v2.5'
+ *         autoLogin    Verify and cache the user login status
  * @return {Promise}    The Promise will resolve when the Facebook init has happened
  */
 function init(id, opts) {
@@ -49,8 +50,9 @@ function init(id, opts) {
 			appId: appId,
 			xfbml: true,
 			cookie: true,
-			status: true, // https://developers.facebook.com/docs/javascript/advanced-setup#status
-			version: opts.version || 'v2.5'
+			version: opts.version || 'v2.5',
+			// https://developers.facebook.com/docs/javascript/advanced-setup#status
+			status: opts.autoLogin === void 0 ? true : opts.autoLogin
 		});
 		FB.Event.subscribe('auth.statusChange', rememberLoginStatus);
 		return FB;
