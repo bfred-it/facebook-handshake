@@ -21,7 +21,7 @@ function handleLoginResponse(response) {
 		loginPromise = Promise.resolve(response.authResponse);
 		return loginPromise;
 	}
-	throw new Error('User not logged in');
+	return Promise.reject(response.status);
 }
 
 function rememberLoginStatus(response) {
