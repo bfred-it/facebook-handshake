@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "babel-preset-es2015-rollup": "^1.1.1",
-    "rollup-babel-lib-bundler": "^2.3.6"
+    "rollup-babel-lib-bundler": "^2.5.5"
   },
   "babel": {
     "presets": [
@@ -22,7 +22,7 @@
   "dependencies": {
     "console-class": "^2.0.0",
     "facebook-sdk-promise": "^1.2.0",
-    "query-string": "^3.0.3"
+    "query-string": "^4.1.0"
   },
   "repository": {
     "type": "git",
