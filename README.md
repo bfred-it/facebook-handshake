@@ -5,8 +5,9 @@
 [![gzipped size](https://badges.herokuapp.com/size/github/bfred-it/facebook-handshake/master/dist/facebook-handshake.byte-count.js?gzip=true&label=gzipped%20size)](#readme) [![Travis build status](https://api.travis-ci.org/bfred-it/facebook-handshake.svg?branch=master)](https://travis-ci.org/bfred-it/facebook-handshake) [![npm package](https://img.shields.io/npm/v/facebook-handshake.svg)](https://www.npmjs.com/package/facebook-handshake) 
 
 ## Install 
+
 ```sh
-npm i --save facebook-handshake
+npm install --save facebook-handshake
 ```
 
 ## Usage
@@ -96,12 +97,13 @@ FBH.init('8460000258713230');
 Create multiple apps (or test version of apps) on Facebook, and then easily `switch` between them:
 
 ```js
-switch(location.host) {
+switch(location.hostname) {
     case 'yourfacebookapp.com': FBH.init('000PR0D00000'); break;
     case 'localhost':           FBH.init('1111L0CAL111'); break;
-    case 'localhost:3000':      FBH.init('300030003000'); break;
 }
 ```
+
+To make this work across multiple ports, make sure you also specify the above domain in the "App Domains" field in your Facebook app ([screenshot](http://i.imgur.com/Fi1w799.png))
 
 ## Build
 
