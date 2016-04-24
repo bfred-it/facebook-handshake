@@ -21,7 +21,7 @@ function handleLoginResponse(response) {
 }
 
 function rememberLoginStatus(response) {
-	Promise.resolve(response).then(handleLoginResponse);
+	handleLoginResponse(response);
 	window.FB.Event.unsubscribe('auth.statusChange', rememberLoginStatus);
 }
 
@@ -50,7 +50,9 @@ export function init(id, opts) {
 			// https://developers.facebook.com/docs/javascript/advanced-setup#status
 			status: opts.autoLogin === undefined ? true : opts.autoLogin,
 		});
-		FB.Event.subscribe('auth.statusChange', rememberLoginStatus);
+		if (opts.autoLogin) {
+			FB.Event.subscribe('auth.statusChange', rememberLoginStatus);
+		}
 		return FB;
 	});
 	return initPromise;
@@ -68,8 +70,8 @@ export function login(opts, force) {
 	if (loginPromise && !force) {
 		return loginPromise;
 	}
+	opts = opts || {}; // start from possible {scope: 'a,b,c'}
 	if (opts !== true && requiresRedirect) {
-		opts = opts || {}; // start from possible {scope: 'a,b,c'}
 		opts.client_id = appId;
 		opts.redirect_uri = redirectUri;
 		window.location.href = 'https://www.facebook.com/dialog/oauth' + buildUrlQuery(opts);
@@ -77,7 +79,6 @@ export function login(opts, force) {
 	}
 	return init().then(FB => new Promise(resolve => {
 		if (opts === true) {
-			console.log('Verifying current login');
 			FB.getLoginStatus(resolve);
 		} else {
 			FB.login(resolve, opts || {});
