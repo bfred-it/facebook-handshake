@@ -2,7 +2,12 @@
 import loadSDK from 'facebook-sdk-promise';
 import {stringify as buildUrlQuery} from 'query-string';
 import Console from 'console-class';
-const console = new Console('FB', {color: '#3b5998'}).off();
+const console = new Console('FB', {
+	color: '#3b5998',
+	sub: [
+		loadSDK.logging,
+	],
+}).off();
 
 export const requiresRedirect = navigator.userAgent.indexOf('iPhone') >= 0 && navigator.userAgent.indexOf('Version/') < 0;
 
@@ -87,13 +92,4 @@ export function login(opts, force) {
 	);
 }
 
-export const logging = {
-	on() {
-		loadSDK.logging.on();
-		console.on();
-	},
-	off() {
-		loadSDK.logging.off();
-		console.off();
-	},
-};
+export const logging = console; // FBH.logging.on() or FBH.logging.off();
