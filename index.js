@@ -2,16 +2,16 @@
 import loadSDK from 'facebook-sdk-promise';
 import {stringify as buildUrlQuery} from 'query-string';
 import Console from 'console-class';
-const console = new Console('FB', {color:'#3b5998'}).off();
+const console = new Console('FB', {color: '#3b5998'}).off();
 
-export let requiresRedirect = navigator.userAgent.indexOf('iPhone') >=0 && navigator.userAgent.indexOf('Version/') < 0 ;
+export const requiresRedirect = navigator.userAgent.indexOf('iPhone') >= 0 && navigator.userAgent.indexOf('Version/') < 0;
 
 let initPromise;
 let loginPromise;
 let redirectUri;
 let appId;
 
-function handleLoginResponse (response) {
+function handleLoginResponse(response) {
 	console.log('User login response:', response);
 	if (response.status === 'connected') {
 		loginPromise = Promise.resolve(response.authResponse);
@@ -20,7 +20,7 @@ function handleLoginResponse (response) {
 	return Promise.reject(response.status);
 }
 
-function rememberLoginStatus (response) {
+function rememberLoginStatus(response) {
 	Promise.resolve(response).then(handleLoginResponse);
 	window.FB.Event.unsubscribe('auth.statusChange', rememberLoginStatus);
 }
@@ -34,21 +34,21 @@ function rememberLoginStatus (response) {
  *         autoLogin    Verify and cache the user login status
  * @return {Promise}    The Promise will resolve when the Facebook init has happened
  */
-export function init (id, opts) {
+export function init(id, opts) {
 	if (initPromise) {
 		return initPromise;
 	}
 	opts = opts || {};
 	redirectUri = opts.url || location.href;
 	appId = id;
-	initPromise = loadSDK().then(function(FB) {
+	initPromise = loadSDK().then(FB => {
 		FB.init({
-			appId: appId,
+			appId,
 			xfbml: true,
 			cookie: true,
 			version: opts.version || 'v2.5',
 			// https://developers.facebook.com/docs/javascript/advanced-setup#status
-			status: opts.autoLogin === void 0 ? true : opts.autoLogin,
+			status: opts.autoLogin === undefined ? true : opts.autoLogin,
 		});
 		FB.Event.subscribe('auth.statusChange', rememberLoginStatus);
 		return FB;
@@ -64,7 +64,7 @@ export function init (id, opts) {
  * @param  {boolean} force       Set to true to force the login popup/redirect to happen, otherwise it will be cached
  * @return {Promise}             The Promise will resolve if the user is logged in, fail if it hasn't
  */
-export function login (opts, force) {
+export function login(opts, force) {
 	if (loginPromise && !force) {
 		return loginPromise;
 	}
@@ -75,14 +75,14 @@ export function login (opts, force) {
 		window.location.href = 'https://www.facebook.com/dialog/oauth' + buildUrlQuery(opts);
 		return;
 	}
-	return init().then(FB => new Promise(requestDone => {
-			if (opts === true) {
-				console.log('Verifying current login');
-				FB.getLoginStatus(requestDone);
-			} else {
-				FB.login(requestDone, opts || {});
-			}
-		}).then(handleLoginResponse)
+	return init().then(FB => new Promise(resolve => {
+		if (opts === true) {
+			console.log('Verifying current login');
+			FB.getLoginStatus(resolve);
+		} else {
+			FB.login(resolve, opts || {});
+		}
+	}).then(handleLoginResponse)
 	);
 }
 
@@ -94,5 +94,5 @@ export const logging = {
 	off() {
 		loadSDK.logging.off();
 		console.off();
-	}
+	},
 };
