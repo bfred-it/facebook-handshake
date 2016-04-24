@@ -2,21 +2,37 @@
   "name": "facebook-handshake",
   "version": "2.4.3",
   "description": "Seamlessly log into Facebook silently, with a popup or with a redirect on unsupported browsers (Chrome/iOS).",
-  "main": "dist/index.es5.js",
   "author": "Federico Brigante <npm@bfred.it> (https://twitter.com/bfred_it)",
   "license": "MIT",
-  "jsnext:main": "index.js",
+  "main": "dist/facebook-handshake.common-js.js",
+  "jsnext:main": "dist/facebook-handshake.es-modules.js",
   "scripts": {
-    "build": "rollup-babel-lib-bundler --lib-name 'index.es5' --format cjs --dest ./dist ./index.js",
-    "prepublish": "npm run build"
+    "build:js": "bfred-npm-bundler facebook-handshake --byte-count",
+    "build:size": "gzip-size dist/facebook-handshake.byte-count.js",
+    "build": "npm-run-all --silent build:*",
+    "jsfix": "xo --fix",
+    "watch:build": "onchange 'index.js' --initial -- npm run build -- --continue-on-error",
+    "watch": "npm-run-all --parallel --silent watch:*",
+    "prepublish": "npm run build",
+    "test": "npm run build"
   },
   "devDependencies": {
     "babel-preset-es2015-rollup": "^1.1.1",
-    "rollup-babel-lib-bundler": "^2.5.5"
+    "bfred-npm-bundler": "^5.0.0",
+    "gzip-size-cli": "^1.0.0",
+    "npm-run-all": "^1.7.0",
+    "onchange": "^2.4.0",
+    "xo": "^0.14.0"
   },
   "babel": {
     "presets": [
       "es2015-rollup"
+    ]
+  },
+  "xo": {
+    "esnext": true,
+    "env": [
+      "browser"
     ]
   },
   "dependencies": {
