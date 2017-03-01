@@ -1,5 +1,5 @@
-const loadSDK = require('facebook-sdk-promise');
-const Console = require('console-class');
+import loadSDK from 'facebook-sdk-promise';
+import Console from 'console-class';
 
 const console = new Console('FB', {
 	color: '#3b5998',

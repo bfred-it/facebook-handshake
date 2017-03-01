@@ -22,7 +22,7 @@
     "test": "npm run build"
   },
   "devDependencies": {
-    "bfred-npm-bundler": "^8.0.3",
+    "bfred-npm-bundler": "^8.1.0",
     "npm-run-all": "^4.0.2",
     "onchange": "^3.2.1",
     "xo": "^0.17.1"
