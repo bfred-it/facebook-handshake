@@ -72,13 +72,12 @@ export function login(opts, force) {
 	if (loginPromise && !force) {
 		return loginPromise;
 	}
-	opts = opts || {}; // start from possible {scope: 'a,b,c'}
 	if (requiresRedirect) {
 		location.href = `https://www.facebook.com/dialog/oauth?client_id=${appId}&redirect_uri=${encodeURIComponent(redirectUri)}`;
 	} else {
 		return init()
 			.then(FB => new Promise(resolve => {
-				FB.login(resolve, opts);
+				FB.login(resolve, opts || {});
 			}))
 			.then(handleLoginResponse);
 	}
