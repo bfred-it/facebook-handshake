@@ -64,11 +64,9 @@ export function init(id, opts) {
 }
 
 /**
- * Log into Facebook in one of the three ways available
- * @param  {boolean|object} opts   It can be one of the two following types
- *                         {boolean}  Whether to only verify if the user had already logged into the app
- *                         {object}   Optional permissions object to pass to Facebook, like {scope: 'user_friends'}
- * @param  {boolean} force       Set to true to force the login popup/redirect to happen, otherwise it will be cached
+ * Log into Facebook with a popup or a redirect
+ * @param  {object} opts    Optional permissions object to pass to Facebook, like {scope: 'user_friends'}
+ * @param  {boolean} force  Set to true to force the login popup/redirect to happen, otherwise it will be cached
  * @return {Promise}             The Promise will resolve if the user is logged in, fail if it hasn't
  */
 export function login(opts, force) {
@@ -83,14 +81,24 @@ export function login(opts, force) {
 		window.location.href = 'https://www.facebook.com/dialog/oauth' + buildUrlQuery(opts);
 		return;
 	}
-	return init().then(FB => new Promise(resolve => {
-		if (opts === true) {
-			FB.getLoginStatus(resolve);
-		} else {
-			FB.login(resolve, opts || {});
-		}
-	}).then(handleLoginResponse)
-	);
+	return init()
+		.then(FB => new Promise(resolve => {
+			FB.login(resolve, opts);
+		}))
+		.then(handleLoginResponse);
+}
+
+/**
+ * Verify if the user had already logged into the app
+ * @return {Promise}    The Promise will resolve if the user is already logged in
+ */
+export function getLoginStatus() {
+	if (loginPromise) {
+		return loginPromise;
+	}
+	return init()
+		.then(FB => new Promise(FB.getLoginStatus))
+		.then(handleLoginResponse);
 }
 
 export const logging = console; // FBH.logging.on() or FBH.logging.off();

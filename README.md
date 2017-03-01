@@ -19,7 +19,7 @@ import FBH from 'facebook-handshake';
 FBH.init('8460000258713230');
 
 // silent check
-FBH.login(true).then(user => /* user is already logged in */)
+FBH.getLoginStatus().then(user => /* user is already logged in */)
 
 // user clicks on connectButton
 connectButton.onclick = () => FBH.login().then(user => /* do stuff */)
@@ -49,7 +49,7 @@ FBH.init('8460000258713230')
 The user won't see anything, so you can proceed to use their previously-requested login or call `FBH.login()` whenever the user clicks on your `[Login]` button.
 
 ```js
-FBH.login(true) // true = silent
+FBH.getLoginStatus()
 .then(user => console.log('User was already logged in:', user.userID, user.accessToken))
 .catch(error => console.error('User was not already log in'));
 ```
