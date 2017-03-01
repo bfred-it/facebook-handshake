@@ -1,7 +1,7 @@
-'use strict';
-import loadSDK from 'facebook-sdk-promise';
-import {stringify as buildUrlQuery} from 'query-string';
-import Console from 'console-class';
+const loadSDK = require('facebook-sdk-promise');
+const buildUrlQuery = require('query-string').stringify;
+const Console = require('console-class');
+
 const console = new Console('FB', {
 	color: '#3b5998',
 	sub: [
