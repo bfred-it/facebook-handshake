@@ -5,8 +5,8 @@ const Console = require('console-class');
 const console = new Console('FB', {
 	color: '#3b5998',
 	sub: [
-		loadSDK.logging,
-	],
+		loadSDK.logging
+	]
 }).off();
 
 export const requiresRedirect = navigator.userAgent.indexOf('iPhone') >= 0 && navigator.userAgent.indexOf('Version/') < 0;
@@ -53,7 +53,7 @@ export function init(id, opts) {
 			cookie: true,
 			version: opts.version || 'v2.5',
 			// https://developers.facebook.com/docs/javascript/advanced-setup#status
-			status: opts.autoLogin === undefined ? true : opts.autoLogin,
+			status: opts.autoLogin === undefined ? true : opts.autoLogin
 		});
 		if (opts.autoLogin) {
 			FB.Event.subscribe('auth.statusChange', rememberLoginStatus);
@@ -77,6 +77,7 @@ export function login(opts, force) {
 	}
 	opts = opts || {}; // start from possible {scope: 'a,b,c'}
 	if (opts !== true && requiresRedirect) {
+		/* eslint-disable camelcase */
 		opts.client_id = appId;
 		opts.redirect_uri = redirectUri;
 		window.location.href = 'https://www.facebook.com/dialog/oauth' + buildUrlQuery(opts);
