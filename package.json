@@ -34,8 +34,7 @@
   },
   "dependencies": {
     "console-class": "^2.1.0",
-    "facebook-sdk-promise": "^1.2.0",
-    "query-string": "^4.1.0"
+    "facebook-sdk-promise": "^1.2.0"
   },
   "repository": {
     "type": "git",
