@@ -73,7 +73,7 @@ export function login(opts, force) {
 		return loginPromise;
 	}
 	opts = opts || {}; // start from possible {scope: 'a,b,c'}
-	if (opts !== true && requiresRedirect) {
+	if (requiresRedirect) {
 		location.href = `https://www.facebook.com/dialog/oauth?client_id=${appId}&redirect_uri=${encodeURIComponent(redirectUri)}`;
 	} else {
 		return init()
