@@ -1,5 +1,5 @@
 const loadSDK = require('facebook-sdk-promise');
-const buildUrlQuery = require('query-string').stringify;
+const qs = require('query-string');
 const Console = require('console-class');
 
 const console = new Console('FB', {
@@ -78,14 +78,14 @@ export function login(opts, force) {
 		/* eslint-disable camelcase */
 		opts.client_id = appId;
 		opts.redirect_uri = redirectUri;
-		window.location.href = 'https://www.facebook.com/dialog/oauth' + buildUrlQuery(opts);
-		return;
+		window.location.href = 'https://www.facebook.com/dialog/oauth' + qs.stringify(opts);
+	} else {
+		return init()
+			.then(FB => new Promise(resolve => {
+				FB.login(resolve, opts);
+			}))
+			.then(handleLoginResponse);
 	}
-	return init()
-		.then(FB => new Promise(resolve => {
-			FB.login(resolve, opts);
-		}))
-		.then(handleLoginResponse);
 }
 
 /**
