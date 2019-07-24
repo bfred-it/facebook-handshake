@@ -2,9 +2,9 @@
 
 > Seamlessly log into Facebook silently, with a popup or with a redirect on unsupported browsers (Chrome/iOS).
 
-[![gzipped size](https://badges.herokuapp.com/size/github/bfred-it/facebook-handshake/master/dist/size-measuring-only?gzip=true&label=gzipped%20size)](#readme) [![Travis build status](https://api.travis-ci.org/bfred-it/facebook-handshake.svg?branch=master)](https://travis-ci.org/bfred-it/facebook-handshake) [![npm package](https://img.shields.io/npm/v/facebook-handshake.svg)](https://www.npmjs.com/package/facebook-handshake) 
+[![gzipped size](https://badges.herokuapp.com/size/github/fregante/facebook-handshake/master/dist/size-measuring-only?gzip=true&label=gzipped%20size)](#readme) [![Travis build status](https://api.travis-ci.org/fregante/facebook-handshake.svg?branch=master)](https://travis-ci.org/fregante/facebook-handshake) [![npm package](https://img.shields.io/npm/v/facebook-handshake.svg)](https://www.npmjs.com/package/facebook-handshake)
 
-## Install 
+## Install
 
 ```sh
 npm install --save facebook-handshake

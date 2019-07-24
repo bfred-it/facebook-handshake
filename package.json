@@ -2,8 +2,9 @@
   "name": "facebook-handshake",
   "version": "4.0.0",
   "description": "Seamlessly log into Facebook silently, with a popup or with a redirect on unsupported browsers (Chrome/iOS).",
-  "author": "Federico Brigante <npm@bfred.it> (https://twitter.com/bfred_it)",
+  "repository": "fregante/facebook-handshake",
   "license": "MIT",
+  "author": "Federico Brigante <opensource@bfred.it> (bfred.it)",
   "files": [
     "dist/facebook-handshake.common-js.js",
     "dist/facebook-handshake.es-modules.js"
@@ -12,20 +13,14 @@
   "module": "dist/facebook-handshake.es-modules.js",
   "jsnext:main": "dist/facebook-handshake.es-modules.js",
   "scripts": {
-    "build:js": "bfred-npm-bundler facebook-handshake --byte-count",
     "build": "npm-run-all --silent jsfix build:*",
+    "build:js": "bfred-npm-bundler facebook-handshake --byte-count",
     "jsfix": "xo --fix",
-    "watch:build": "onchange 'index.js' --initial -- npm run build -- --continue-on-error",
-    "watch": "npm-run-all --parallel --silent watch:*",
     "prepublish": "npm run build",
+    "test": "npm run build",
     "version": "npm run build; git add dist",
-    "test": "npm run build"
-  },
-  "devDependencies": {
-    "bfred-npm-bundler": "^8.1.0",
-    "npm-run-all": "^4.0.2",
-    "onchange": "^3.2.1",
-    "xo": "^0.17.1"
+    "watch": "npm-run-all --parallel --silent watch:*",
+    "watch:build": "onchange 'index.js' --initial -- npm run build -- --continue-on-error"
   },
   "xo": {
     "env": [
@@ -36,12 +31,10 @@
     "console-class": "^2.1.0",
     "facebook-sdk-promise": "^1.2.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/bfred-it/facebook-handshake.git"
-  },
-  "bugs": {
-    "url": "https://github.com/bfred-it/facebook-handshake/issues"
-  },
-  "homepage": "https://github.com/bfred-it/facebook-handshake#readme"
+  "devDependencies": {
+    "bfred-npm-bundler": "^8.1.0",
+    "npm-run-all": "^4.0.2",
+    "onchange": "^3.2.1",
+    "xo": "^0.17.1"
+  }
 }
